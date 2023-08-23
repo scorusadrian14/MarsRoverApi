@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -28,5 +29,10 @@ public class HomeController {
         model.put("homeDto",homeDto);
         model.put("validCameras",marsRoverApiService.getValidCameras().get(homeDto.getRoverData()));
         return "index";
+    }
+    @PostMapping("/")
+    public String postHomeView(HomeDto homeDto){
+        System.out.println(homeDto);
+        return "redirect:/";
     }
 }

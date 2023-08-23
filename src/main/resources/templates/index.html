@@ -12,8 +12,9 @@
     <div class="container">
         <h2>Welcome to the Mars rover application!</h2>
 
-        <form method="get" action="" id="formRover">
+        <form method="post" action="" id="formRover">
             <input type="hidden" th:field="${homeDto.roverData}"/>
+            <input type="hidden" th:field="${homeDto.userId}"/>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin: 2em 0em">
                 <input type="radio" class="btn-check" name="btnradio" id="curiosity" autocomplete="on" />
                 <label class="btn btn-outline-primary" for="curiosity">Curiosity</label>

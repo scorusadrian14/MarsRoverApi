@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class HomeDto {
+    private Long userId;
     private String roverData;
     private Integer sol;
     private Boolean cameraFhaz;

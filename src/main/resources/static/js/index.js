@@ -1,4 +1,13 @@
-// Select from what Rover we get the pohotos
+let userId = getUrlParameter("userId");
+if (userId == null || userId == "") {
+  userId = localStorage.getItem("userId");
+}
+if (userId != null && userId != "") {
+  localStorage.setItem("userId", userId);
+  document.getElementById("userId").value = userId;
+}
+
+// Select from what Rover we get the photos
 
 var roverButtons = document.querySelectorAll("input[name=btnradio]");
 
@@ -21,7 +30,10 @@ function getUrlParameter(name) {
 }
 let roverDataType = getUrlParameter("roverData");
 let marsSol = getUrlParameter("sol");
-document.getElementById("sol").value = marsSol;
+if (marsSol != null && marsSol > 0) {
+  document.getElementById("sol").value = marsSol;
+}
+
 highlightButtonByRoverType(roverDataType);
 
 function highlightButtonByRoverType(roverType) {
