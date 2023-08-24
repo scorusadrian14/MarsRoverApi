@@ -3,6 +3,8 @@ package com.adrianscorus.marsphotos.service;
 import com.adrianscorus.marsphotos.dto.HomeDto;
 import com.adrianscorus.marsphotos.models.NasaApiResponse;
 import com.adrianscorus.marsphotos.models.Photo;
+import com.adrianscorus.marsphotos.repository.PreferencesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +17,8 @@ public class MarsRoverApiService {
     private static final String DEMO_KEY ="ooGzFJQYz3X7JjhRe4sgAakVckqluv7rl1UkRsKh";
     private final Map<String, List<String>> validCameras= new HashMap<>();
     private static final String BASE_URL="https://api.nasa.gov/mars-photos/api/v1/rovers/";
+    @Autowired
+    private PreferencesRepository preferencesRepository;
     public MarsRoverApiService(){
         validCameras.put("opportunity", Arrays.asList("FHAZ","RHAZ","NAVCAM","PANCAM","MINITES"));
         validCameras.put("curiosity",Arrays.asList("FHAZ","RHAZ","MAST","MAHLI","CHEMCAM","MARDI","NAVCAM"));
@@ -49,5 +53,13 @@ public class MarsRoverApiService {
     }
     public Map<String, List<String>> getValidCameras(){
         return validCameras;
+    }
+
+    public HomeDto save(HomeDto homeDto) {
+        return preferencesRepository.save(homeDto);
+    }
+
+    public HomeDto findByUserId(Long userId) {
+        return preferencesRepository.findByUserId(userId);
     }
 }

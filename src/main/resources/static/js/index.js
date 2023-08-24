@@ -28,8 +28,10 @@ function getUrlParameter(name) {
     ? ""
     : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-let roverDataType = getUrlParameter("roverData");
-let marsSol = getUrlParameter("sol");
+
+let roverDataType = document.getElementById("roverData").value;
+let marsSol = document.getElementById("sol").value;
+
 if (marsSol != null && marsSol > 0) {
   document.getElementById("sol").value = marsSol;
 }

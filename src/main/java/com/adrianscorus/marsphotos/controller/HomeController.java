@@ -17,22 +17,35 @@ public class HomeController {
     @Autowired
     private MarsRoverApiService marsRoverApiService;
     @GetMapping("/")
-    public String getHomeView(HomeDto homeDto, ModelMap model) throws InvocationTargetException, IllegalAccessException {
-        if(StringUtils.isEmpty(homeDto.getRoverData())){
-            homeDto.setRoverData("opportunity");
-        }
-        if(homeDto.getSol()== null){
-            homeDto.setSol(1);
+    public String getHomeView(ModelMap model, Long userId) throws InvocationTargetException, IllegalAccessException {
+        HomeDto homeDto = createHomeDto(userId);
+        if(userId==null){
+            homeDto= marsRoverApiService.save(homeDto);
+        }else{
+            homeDto=marsRoverApiService.findByUserId(userId);
         }
         NasaApiResponse roverData1 = marsRoverApiService.getRoverData(homeDto);
         model.put("roverData",roverData1);
         model.put("homeDto",homeDto);
         model.put("validCameras",marsRoverApiService.getValidCameras().get(homeDto.getRoverData()));
+        if(Boolean.TRUE.equals(homeDto.getRememberPreferences()) && userId!=null){
+            HomeDto defaultHomeDto= createHomeDto(userId);
+            marsRoverApiService.save(defaultHomeDto);
+        }
         return "index";
     }
+
+    private static HomeDto createHomeDto(Long userId) {
+        HomeDto homeDto= new HomeDto();
+        homeDto.setRoverData("opportunity");
+        homeDto.setSol(1);
+        homeDto.setUserId(userId);
+        return homeDto;
+    }
+
     @PostMapping("/")
     public String postHomeView(HomeDto homeDto){
-        System.out.println(homeDto);
-        return "redirect:/";
+        homeDto= marsRoverApiService.save(homeDto);
+        return "redirect:/?userId="+homeDto.getUserId();
     }
 }
